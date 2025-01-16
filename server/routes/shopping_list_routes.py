@@ -12,10 +12,14 @@ def add_shopping_item():
     user_id = get_jwt_identity()["id"]
 
     item_name = data.get('item_name')
-    if not item_name:
-        return jsonify({"error": "Item name is required"}), 400
+    recipe_id = data.get('recipe_id')
+    amount = data.get('amount', None)
+    unit = data.get('unit', None)
 
-    item = ShoppingList(user_id=user_id, item_name=item_name)
+    if not item_name or not recipe_id:
+        return jsonify({"error": "Item name is or recipe ID required"}), 400
+
+    item = ShoppingList(user_id=user_id, recipe_id=recipe_id, item_name=item_name, amount=amount, unit=unit)
     db.session.add(item)
     db.session.commit()
 

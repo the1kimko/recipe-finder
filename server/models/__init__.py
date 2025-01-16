@@ -12,3 +12,4 @@ db = SQLAlchemy(metadata=metadata)
 from models.favorite import Favorite
 from models.shopping_list import ShoppingList
 from models.user import User
+from models.recipe import Recipe
