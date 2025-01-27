@@ -17,5 +17,8 @@ class Recipe(db.Model, SerializerMixin):
     created_by = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)  # Null for default recipe
 
     # Relationships
-    users = db.relationship('Favorite', back_populates='recipe', lazy=True)  # Many-to-Many via Favorite
+    favorites = db.relationship('Favorite', back_populates='recipe', lazy=True)  # Many-to-Many via Favorite
     shopping_list = db.relationship('ShoppingList', backref='recipe', lazy=True)  # One-to-Many
+
+    # Serialization Rules
+    serialize_rules = ('-favorites.recipe', '-shopping_list.recipe')

@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
-    serialize_rules = ('-password_hash', '-favorites.user', '-shopping_list.user', '-recipes.users')
+    serialize_rules = ('-password_hash', '-favorites.user', '-favorites.recipe', '-shopping_list.user', '-recipes.users')
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
@@ -17,8 +17,8 @@ class User(db.Model, SerializerMixin):
 
     # Relationships
     favorites = db.relationship('Favorite', back_populates='user', lazy=True)
-    shopping_list = db.relationship('ShoppingList', backref='user', lazy=True)
-    recipes = db.relationship('Recipe', backref='creator', lazy=True)
+    #shopping_list = db.relationship('ShoppingList', backref='user', lazy=True)
+    #recipes = db.relationship('Recipe', backref='creator', lazy=True)
 
     # Password hashing and checking methods
     def set_password(self, password):

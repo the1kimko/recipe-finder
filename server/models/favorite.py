@@ -11,6 +11,6 @@ class Favorite(db.Model, SerializerMixin):
 
     # Relationships
     user = db.relationship('User', back_populates='favorites')
-    recipe = db.relationship('Recipe', back_populates='users')
+    recipe = db.relationship('Recipe', back_populates='favorites')
 
-    serialize_rules = ('-user.password', '-user.email', '-recipe.shopping_list') 
+    serialize_rules = ('-user.favorites', '-recipe.favorites')
