@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_jwt
 from models.user import User, db
 import cloudinary.uploader
 
@@ -55,14 +55,19 @@ def login():
         return jsonify({"error": "Invalid credentials"}), 401
 
     # Create JWT
-    access_token = create_access_token(identity={"id": user.id, "role": user.role})
+    access_token = create_access_token(
+        identity=str(user.id),
+        additional_claims={"role": user.role}
+    )
     return jsonify({"access_token": access_token, "role": user.role}), 200
 
 # Verify Admin Role
 @auth_bp.route('/verify-admin', methods=['GET'])
 @jwt_required()
 def verify_admin():
-    identity = get_jwt_identity()
-    if identity['role'] != 'admin':
+    claims = get_jwt()
+    if claims.get("role") != "admin":
         return jsonify({"error": "Admin access required"}), 403
     return jsonify({"message": "Admin access verified"}), 200
+
+

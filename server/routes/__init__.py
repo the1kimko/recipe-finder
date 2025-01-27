@@ -10,4 +10,4 @@ def register_blueprints(app):
     app.register_blueprint(favorite_bp, url_prefix="/favorite")
     app.register_blueprint(shopping_list_bp, url_prefix="/shopping_lists")
     app.register_blueprint(user_bp, url_prefix="/users")
-    app.register_blueprint(recipes_bp, url_prefix="/routes")
+    app.register_blueprint(recipes_bp, url_prefix="/recipes")
